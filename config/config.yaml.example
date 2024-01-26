@@ -1,0 +1,26 @@
+setting:
+  account:
+    email: akimio2333@gmail.com
+    global_api_key: 56e4xxxxxxxxxxxxxxxxxxxxxxxeexxx59a8
+    zone_id: 7af6xxxxxxxxxxxxxxxxxxxxx6a6c
+  CFST:
+    n: 200   # 延迟测速线程；越多延迟测速越快，但可能会被识别成网络扫描，最多 1000)
+    t: 4    # 延迟测速次数；单个 IP 延迟测速的次数；(默认 4 次)
+    dn: 20  # 下载测速数量；延迟测速并排序后，从最低延迟起下载测速的数量；(默认 10 个)
+    dt: 10  # 下载测速时间；单个 IP 下载测速最长时间，不能太短；(默认 10 秒)
+    tp: 443 # 指定测速端口；延迟测速/下载测速时使用的端口；(默认 443 端口)
+    url: https://cf.xiu2.xyz/url  # 指定测速地址；延迟测速(HTTPing)/下载测速时使用的地址，默认地址不保证可用性，建议自建
+    tl: 300 # 平均延迟上限；只输出低于指定平均延迟的 IP，各上下限条件可搭配使用
+    tll: 20 # 平均延迟下限；只输出高于指定平均延迟的 IP
+    tlr: 0.3  # 丢包几率上限；只输出低于/等于指定丢包率的 IP，范围 0.00~1.00，0 过滤掉任何丢包的 IP；(默认 1.00)
+    sl: 3   # 下载速度下限；只输出高于指定下载速度的 IP，凑够指定数量 [-dn] 才会停止测速；(默认 0.00 MB/s)
+
+SpeedTest:
+  HK:
+    domain: hk.a.com
+    domain_id: 5621xxxxxxxxxxxxba10c0
+    cfcolo: HKG
+  US:
+    domain: us.a.com
+    domain_id: e2fbxxxxxxxxxxxxxx9d52
+    cfcolo: LAX,SEA,SJC

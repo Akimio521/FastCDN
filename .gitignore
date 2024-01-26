@@ -1,0 +1,13 @@
+# 文件夹
+tmp/*
+__pycache__/*
+
+# 文件
+/config/config.yaml
+CloudflareST*
+
+# 测试函数
+test*
+
+#备份
+*.bak
