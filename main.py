@@ -24,7 +24,6 @@ def main():
         print(f"{'='*65}\n开始测试{key}\n正在测试第{round_count}轮，总计{round}轮\n{'='*65}")
 
         domain = value["domain"]
-        domain_id = value["domain_id"]
         cfcolo = value["cfcolo"]
 
         command = f"./CloudflareST -f ./tmp/ipv4.txt -o ./tmp/result.csv -p 0 -httping -cfcolo {cfcolo} -n {n} -t {t} -dn {dn} -dt {dt} -tp {tp} -url {url} -tl {tl} -tll {tll} -tlr {tlr} -sl {sl}"
@@ -37,10 +36,10 @@ def main():
             fastest_ip_row = df.loc[df["下载速度 (MB/s)"].idxmax()]
             fastest_ip = fastest_ip_row["IP 地址"]
             print(f"{key}下载速度最快的IP地址是:{fastest_ip}")
-            update_dns(email, global_api_key, zone_id, domain, domain_id, fastest_ip)
+            update_dns(email, global_api_key, zone_id, domain, fastest_ip)
             os.remove("./tmp/result.csv")
         round_count += 1
-        
+
 if __name__ == '__main__':
 
     print(f"当前的APP版本是：{APP_VERSION}")

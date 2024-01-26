@@ -4,7 +4,7 @@ setting:
     global_api_key: 56e4xxxxxxxxxxxxxxxxxxxxxxxeexxx59a8
     zone_id: 7af6xxxxxxxxxxxxxxxxxxxxx6a6c
   CFST:
-    n: 200   # 延迟测速线程；越多延迟测速越快，但可能会被识别成网络扫描，最多 1000)
+    n: 200  # 延迟测速线程；越多延迟测速越快，但可能会被识别成网络扫描，最多 1000
     t: 4    # 延迟测速次数；单个 IP 延迟测速的次数；(默认 4 次)
     dn: 20  # 下载测速数量；延迟测速并排序后，从最低延迟起下载测速的数量；(默认 10 个)
     dt: 10  # 下载测速时间；单个 IP 下载测速最长时间，不能太短；(默认 10 秒)
@@ -18,9 +18,7 @@ setting:
 SpeedTest:
   HK:
     domain: hk.a.com
-    domain_id: 5621xxxxxxxxxxxxba10c0
     cfcolo: HKG
   US:
     domain: us.a.com
-    domain_id: e2fbxxxxxxxxxxxxxx9d52
     cfcolo: LAX,SEA,SJC
