@@ -89,3 +89,21 @@ def update_dns(email, global_api_key, zone_id, domain, domain_id, ip):
     url = f"https://api.cloudflare.com/client/v4/zones/{zone_id}/dns_records/{domain_id}"
     response = requests.put(url, headers=headers, data=json.dumps(data))
     print(response.json())
+
+def get_domain_id(email:str, global_api_key:str, zone_id:str, domain:str):
+    url = f"https://api.cloudflare.com/client/v4/zones/{zone_id}/dns_records?page=1&per_page=20&order=type&direction=asc"
+    headers = {
+        "X-Auth-Email": email,
+        "X-Auth-Key": global_api_key,
+        "Content-Type": "application/json"
+    }
+
+    response = requests.get(url, headers=headers)
+    domains_details = response.json()
+    results = domains_details.get("result")
+
+    for result in results:
+        if domain == result.get("name"):
+            domain_id = result.get("id")
+            #print(f"{domain}的域名id为：{domain_id}")
+    return domain_id

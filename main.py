@@ -7,15 +7,7 @@ import time
 from version import APP_VERSION
 from FastCDN import update_ips, cloudflarespeedtest, update_dns
 
-if __name__ == '__main__':
-
-    print(f"当前的APP版本是：{APP_VERSION}")
-
-    os.environ.pop("HTTP_PROXY", None)
-    os.environ.pop("HTTPS_PROXY", None)
-    os.environ.pop("http_proxy", None)
-    os.environ.pop("https_proxy", None)
-
+def main():
     update_ips()
     with open("./config/config.yaml", "r", encoding="utf-8") as file:
         data = yaml.safe_load(file)
@@ -48,6 +40,17 @@ if __name__ == '__main__':
             update_dns(email, global_api_key, zone_id, domain, domain_id, fastest_ip)
             os.remove("./tmp/result.csv")
         round_count += 1
+        
+if __name__ == '__main__':
+
+    print(f"当前的APP版本是：{APP_VERSION}")
+
+    os.environ.pop("HTTP_PROXY", None)
+    os.environ.pop("HTTPS_PROXY", None)
+    os.environ.pop("http_proxy", None)
+    os.environ.pop("https_proxy", None)
+
+    main()
 
     print("10秒后自动退出程序")
     time.sleep(10)
