@@ -8,8 +8,13 @@ from version import APP_VERSION
 from FastCDN import update_ips, cloudflarespeedtest, update_dns
 
 def main():
-    update_ips()
-    with open("./config/config.yaml", "r", encoding="utf-8") as file:
+    tmp_path="./tmp"
+    ipv4_path = tmp_path + "/ipv4.txt"
+    csv_path = tmp_path + "/result.csv"
+    config_path = "./config/config.yaml"
+
+    update_ips(tmp_path, ipv4_path)
+    with open(config_path, "r", encoding="utf-8") as file:
         config_data = yaml.safe_load(file)
 
     #获取CloudFlare账号信息
@@ -54,13 +59,13 @@ def main():
         domain = value["domain"]
         cfcolo = value["cfcolo"]
 
-        command = f"./CloudflareST -f ./tmp/ipv4.txt -o ./tmp/result.csv -p 0 -httping -cfcolo {cfcolo} -n {n} -t {t} -dn {dn} -dt {dt} -tp {tp} -url {url} -tl {tl} -tll {tll} -tlr {tlr} -sl {sl}"
+        command = f"./CloudflareST -f {ipv4_path} -o {csv_path} -p 0 -httping -cfcolo {cfcolo} -n {n} -t {t} -dn {dn} -dt {dt} -tp {tp} -url {url} -tl {tl} -tll {tll} -tlr {tlr} -sl {sl}"
         cloudflarespeedtest(command)
 
-        if not os.path.exists("./tmp/result.csv"):
-            print("./tmp/result.csv不存在,已跳过更新")
+        if not os.path.exists(csv_path):
+            print(f"{csv_path}不存在,已跳过更新")
         else:
-            df = pd.read_csv("./tmp/result.csv", encoding="utf-8")
+            df = pd.read_csv(csv_path, encoding="utf-8")
             fastest_ip_row = df.loc[df["下载速度 (MB/s)"].idxmax()]
             fastest_ip = fastest_ip_row["IP 地址"]
             fastest_ip_loss_rate = fastest_ip_row["丢包率"]
@@ -75,7 +80,7 @@ def main():
 """
             print(infomation_speedtest_result)
             update_dns(email, global_api_key, zone_id, domain, fastest_ip)
-            os.remove("./tmp/result.csv")
+            os.remove(csv_path)
         round_count += 1
 
 if __name__ == '__main__':

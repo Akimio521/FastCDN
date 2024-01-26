@@ -19,12 +19,12 @@ def is_valid_ipv4(ip):
         else:
             return False
 
-def update_ips(): 
-    if not os.path.exists("./tmp"):
-        os.makedirs("./tmp")
+def update_ips(tmp_path:str, ipv4_path:str): 
+    if not os.path.exists(tmp_path):
+        os.makedirs(tmp_path)
 
     current_date = datetime.now().strftime("%Y%m%d")
-    latest_ips_folder = os.path.join("./tmp", current_date)
+    latest_ips_folder = os.path.join(tmp_path, current_date)
 
     if os.path.exists(latest_ips_folder):
         print("已获取今日最新IP，无需重新下载")
@@ -42,10 +42,10 @@ def update_ips():
         # 反代IP
         print("开始下载反代IP列表...")
         response = requests.get("https://zip.baipiao.eu.org/")
-        with open("./tmp/reverse_proxy_ips.zip", "wb") as file:
+        with open(tmp_path + "/reverse_proxy_ips.zip", "wb") as file:
             file.write(response.content)
 
-        with zipfile.ZipFile('./tmp/reverse_proxy_ips.zip', 'r') as archive:
+        with zipfile.ZipFile(tmp_path + '/reverse_proxy_ips.zip', 'r') as archive:
             archive.extractall(latest_ips_folder)
 
         valid_ips = []
@@ -60,12 +60,12 @@ def update_ips():
                         if is_valid_ipv4(ip):
                             valid_ips.append(ip)
         
-        if os.path.exists('./tmp/ipv4.txt'):
-            os.remove('./tmp/ipv4.txt')
+        if os.path.exists(ipv4_path):
+            os.remove(ipv4_path)
 
-        with open('./tmp/ipv4.txt', 'w') as outfile:
+        with open(ipv4_path, 'w') as outfile:
             outfile.write('\n'.join(valid_ips))
-        print("所有IP已保存到./tmp/ipv4.txt")
+        print(f"所有IP已保存到{ipv4_path}")
 
 def cloudflarespeedtest(command):
     print("测速中...")
