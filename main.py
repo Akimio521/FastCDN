@@ -10,12 +10,26 @@ from FastCDN import update_ips, cloudflarespeedtest, update_dns
 def main():
     update_ips()
     with open("./config/config.yaml", "r", encoding="utf-8") as file:
-        data = yaml.safe_load(file)
+        config_data = yaml.safe_load(file)
 
-    setting = data["setting"]["account"]
-    globals().update(setting)
-    globals().update(data["setting"]["CFST"])
-    speed_test_data = data["SpeedTest"]
+    #获取CloudFlare账号信息
+    email = config_data["setting"]["account"]["email"]
+    global_api_key = config_data["setting"]["account"]["global_api_key"]
+    zone_id = config_data["setting"]["account"]["zone_id"]
+    #获取CFST信息1
+    n = config_data["setting"]["CFST"]["n"]
+    t = config_data["setting"]["CFST"]["t"]
+    dn = config_data["setting"]["CFST"]["dn"]
+    dt = config_data["setting"]["CFST"]["dt"]
+    tp = config_data["setting"]["CFST"]["tp"]
+    url = config_data["setting"]["CFST"]["url"]
+    tl = config_data["setting"]["CFST"]["tl"]
+    tll = config_data["setting"]["CFST"]["tll"]
+    tlr = config_data["setting"]["CFST"]["tlr"]
+    sl = config_data["setting"]["CFST"]["sl"]
+    #获取CFST信息2
+    speed_test_data = config_data["SpeedTest"]
+
     round = len(speed_test_data)
     print(f"一共需要测速{round}次\n测试参数：\n延迟测速线程数：{n}线程\n延迟测速次数：{t}次\n下载测速数量：{dn}次\n下载测速时间：{dt}秒\n测速端口：{tp}\n测速地址：{url}\n平均延迟上限：{tl}ms\n平均延迟下限：{tll}ms\n丢包几率上限：{tlr}\n下载速度下限：{sl}")
 
