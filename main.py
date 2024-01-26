@@ -31,7 +31,21 @@ def main():
     speed_test_data = config_data["SpeedTest"]
 
     round = len(speed_test_data)
-    print(f"一共需要测速{round}次\n测试参数：\n延迟测速线程数：{n}线程\n延迟测速次数：{t}次\n下载测速数量：{dn}次\n下载测速时间：{dt}秒\n测速端口：{tp}\n测速地址：{url}\n平均延迟上限：{tl}ms\n平均延迟下限：{tll}ms\n丢包几率上限：{tlr}\n下载速度下限：{sl}")
+    infomation_speedtest_setting = f"""一共需要测速{round}次：
+{'='*65}
+测试参数：
+延迟测速线程数：{n}线程
+延迟测速次数：{t}次
+下载测速数量：{dn}次
+下载测速时间：{dt}秒
+测速端口：{tp}
+测速地址：{url}
+平均延迟上限：{tl}ms
+平均延迟下限：{tll}ms
+丢包几率上限：{tlr}
+下载速度下限：{sl}
+"""
+    print(infomation_speedtest_setting)
 
     round_count = 1
     for key, value in speed_test_data.items():
@@ -49,7 +63,17 @@ def main():
             df = pd.read_csv("./tmp/result.csv", encoding="utf-8")
             fastest_ip_row = df.loc[df["下载速度 (MB/s)"].idxmax()]
             fastest_ip = fastest_ip_row["IP 地址"]
-            print(f"{key}下载速度最快的IP地址是:{fastest_ip}")
+            fastest_ip_loss_rate = fastest_ip_row["丢包率"]
+            fastest_ip_delay = fastest_ip_row["平均延迟"]
+            fastest_ip_speed = fastest_ip_row["下载速度 (MB/s)"]
+
+            infomation_speedtest_result = f"""{key}已测速完毕：
+下载速度最快的IP地址是：{fastest_ip}
+丢包率：{fastest_ip_loss_rate}
+平均延迟：{fastest_ip_delay}ms
+下载速度：{fastest_ip_speed}MB/s
+"""
+            print(infomation_speedtest_result)
             update_dns(email, global_api_key, zone_id, domain, fastest_ip)
             os.remove("./tmp/result.csv")
         round_count += 1
