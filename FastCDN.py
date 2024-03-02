@@ -69,7 +69,7 @@ def update_ips(tmp_path:str, ipv4_path:str):
 
 def cloudflarespeedtest(command):
     print("测速中...")
-    subprocess.run(command)
+    subprocess.run(command, shell=True)
     print("测试完成")
 
 def update_dns(email:str, global_api_key:str, zone_id:str, domain:str, ip:str):
